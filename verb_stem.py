@@ -56,19 +56,6 @@ def remove_plural_suffix(word):
             return word
     return word
 
-# Define verb negative suffixes - past/prsent; இல்லை, future: மாட்டேன்..., அஃறிணை: ஆது
-negative_suffixes = ["வில்லை", "மாட்டேன்", "மாட்டோம்", "மாட்டான்", "மாட்டாள்", "மாட்டார்", "ாது"] 
-def remove_negative_suffixes(word):
-    # Iterate through each verb negative suffix, remove it if found and also fix the ending
-    for s in negative_suffixes:
-        if word.endswith(s):            # உண்ணவில்லை, வாங்கிக்கொள்ளவில்லை, வாங்கமாட்டேன், செய்யமாட்டார்கள், செய்யாது        
-            global is_affix_removed 
-            is_affix_removed = True
-            word = word[:-len(s)]
-            word = convert_infinitive_to_the_root_verb(word)
-            return word    
-    return word
-
 # Define verb level 4 மெய் முதல் suffixes
 # Should look for "தீர்" only after "த்தீர்" in level 3 PNG suffixes
 level4_mei_mudhal_suffixes = [
@@ -85,12 +72,11 @@ def remove_level4_mei_mudhal_suffixes(word):
             word = word[:index]
             if word.endswith(migumvali):
                 word = word[:-len("க்")]   # விட்டுத்தொலை -> விட்டுத், வாங்கிக்கொள் -> வாங்கிக்                
-            # word = convert_avp_to_the_root_verb(word)
             return word    
     return word
 
 # Define verb level 3 and 4 உயிர் முதல் suffixes
-level3_4_uyir_mudhal_suffixes = ["ிரு", "ாயிற்று", "ியல"] 
+level3_4_uyir_mudhal_suffixes = ["ிரு", "ாயிற்று", "ியல", "லாம்", "லாகாது", "லாகும்", "ும்", "ுமேன்", "ுங்", "ுங்களேன்", "ேன்"]   # "ுங்" because "கள்" has been removed already
 def remove_level3_4_uyir_mudhal_suffixes(word):
     # Iterate through each verb level 4 மெய் முதல் suffix, remove it if found and also fix the ending
     for s in level3_4_uyir_mudhal_suffixes:
@@ -118,6 +104,18 @@ def remove_level3_mei_mudhal_suffixes(word):
             is_affix_removed = True
             word = word[:index]
             return word             # பார்க்கப்போகவில்லை, பார்க்கப்போனேன்/போகிறேன்/போவேன், பார்க்கட்டும்
+    return word
+
+# Define verb negative suffixes - past/prsent; இல்லை, future: மாட்டேன்..., அஃறிணை: ஆது
+negative_suffixes = ["வில்லை", "மாட்டேன்", "மாட்டோம்", "மாட்டான்", "மாட்டாள்", "மாட்டார்", "ாது"] 
+def remove_negative_suffixes(word):
+    # Iterate through each verb negative suffix, remove it if found and also fix the ending
+    for s in negative_suffixes:
+        if word.endswith(s):            # உண்ணவில்லை, வாங்கிக்கொள்ளவில்லை, வாங்கமாட்டேன், செய்யமாட்டார்கள், செய்யாது        
+            global is_affix_removed 
+            is_affix_removed = True
+            word = word[:-len(s)]
+            return word    
     return word
 
 # Define past tense னேன் PNG (Person/Number/Gender) suffixes
@@ -210,7 +208,10 @@ def remove_past_tense_Reen_PNG_suffix(word):
     return word        
 
 # Define present tense கிறேன் PNG (Person/Number/Gender) suffixes
-present_tense_kiReen_PNG_suffixes = ["கிறேன்", "கிறோம்", "கிறாய்", "கிறீர்", "கிறான்", "கிறாள்", "கிறார்", "கிறது", "கின்றன"] 
+present_tense_kiReen_PNG_suffixes = [
+    "கிறேன்", "கிறோம்", "கிறாய்", "கிறீர்", "கிறான்", "கிறாள்", "கிறார்", "கிறது", "கின்றன",
+    "கின்றேன்", "கின்றோம்", "கின்றாய்", "கின்றீர்", "கின்றான்", "கின்றாள்", "கின்றார்", "கின்றது", "கின்றனர்"
+    ] 
 def remove_present_tense_kiReen_PNG_suffixes(word):
     # Iterate through each present tense கிறேன் PNG suffix, remove it if found and also fix the ending
     for s in present_tense_kiReen_PNG_suffixes:
@@ -336,10 +337,10 @@ def convert_avp_to_the_root_verb(word):
 # Define the list of affix stripping functions
 affix_stripping_functions = [
     remove_plural_suffix,
-    remove_negative_suffixes,
     remove_level4_mei_mudhal_suffixes,
     remove_level3_mei_mudhal_suffixes,
     remove_level3_4_uyir_mudhal_suffixes,
+    remove_negative_suffixes,
     remove_past_tense_neen_PNG_suffixes,
     remove_past_tense_ndteen_PNG_suffix,
     remove_past_tense_Teen_PNG_suffixes,
@@ -369,7 +370,7 @@ def verb_stemmer(word):
         word = verb_stemmer(word)      # Recursive call to stem the word iteratively
     return word
 
-word = "போய்த்தொலையுங்கள்"  
+word = "செய்யலாகாது"  
 
 # If the word has a match in the lexicon, we have the stem already. Nothing further needs to be done.
 if data_store.is_word_in_lexicon(word):
