@@ -72,6 +72,7 @@ def remove_behind_ku_suffixes(word):
             elif word.endswith("க"):        # மரங்களுக்கருகிலிருந்து
                 return word + "ு"                 
             else:
+                is_affix_removed = False
                 return word + s
     return word
 
@@ -178,5 +179,4 @@ word = "மரங்களுக்கருகிலிருந்து"
 if data_store.is_word_in_lexicon(word):
     print(word)
 else:
-    # word = tamil_stemmer(word)      
     word = noun_stemmer(word)     

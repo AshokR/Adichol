@@ -376,5 +376,4 @@ word = "செய்யலாகாது"
 if data_store.is_word_in_lexicon(word):
     print(word)
 else:
-    # word = tamil_stemmer(word)
     word = verb_stemmer(word)
