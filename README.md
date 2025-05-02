@@ -1,11 +1,11 @@
 # Adichol
 Rule based Tamil Adichol extractor
-This is an attempt at creating the first part of a rule based Tamil stemmer - it only handles nouns (பெயர்ச்சொல்) and verbs (வினைச்சொல்) for now. I am using the following resources and thank them for the same:
+This is an attempt at creating the first part of a rule based Tamil stemmer - it only handles nouns (பெயர்ச்சொல்), verbs (வினைச்சொல்) and pronouns (பதிலிடுபெயர்/சுட்டுப்பெயர்) for now. I am using the following resources and thank them for the same:
  - Python 3.12
  - The list of Tamil nouns, unique_sorted_noun_master.txt, from [Kaniyam Foundation](https://github.com/KaniyamFoundation/all_tamil_nouns).
  - Bloom filter to check whether a given word is in the list of lexicon words: [pybloom_live](https://github.com/joseph-fox/python-bloomfilter).
  - The Flowchart of Tamil Noun and Verb Forms is from [AU-KBC Computational Linguistics Research Group](https://www.au-kbc.org/nlp/).
- - The list of Tamil verbs is extracted from the crea.babylon file shared by [stardict-tamil site](https://github.com/indic-dict/stardict-tamil).
+ - The list of Tamil verbs and pronouns is extracted from the crea.babylon file shared by [stardict-tamil site](https://github.com/indic-dict/stardict-tamil).
 
 ## அடிச்சொல் ஏன்?
 நாம் ஒரு சொல்லைப் பற்றித் தேடும்போது, தேடல் பெட்டியில் உள்ளிட்டது மட்டுமல்லாமல் அதன் பிற சாத்தியமான வடிவங்களுக்கும் பொருத்தமான முடிவுகளைக் கண்டுபிடிக்கத்தான் விரும்புகிறோம். எடுத்துக்காட்டாக “மின்னூல்” என்று தேடல் பெட்டியில் உள்ளிடுகிறோம் என்று வைத்துக் கொள்வோம். நமக்கு ‘மின்னூல்கள்’, ‘மின்னூலை’, ‘மின்னூலின்’ என்ற சொற்கள் இருக்கும் பக்கங்களும் தேவைதானே? இதைச் செயல்படுத்த நாம் வேறுபாடுகளை நீக்கி சொற்களை அவற்றின் அடிப்படை வடிவத்திற்குக் குறைக்க வேண்டும். 
